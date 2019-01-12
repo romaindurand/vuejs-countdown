@@ -2,19 +2,19 @@
     <ul class="vuejs-countdown">
         <li v-if="days > 0">
             <p class="digit">{{ days | twoDigits }}</p>
-            <p class="text">{{ days > 1 ? i18n.day[1] : i18n.day[0] }}</p>
+            <p class="text">{{ days > 1 ? labels.day[1] : labels.day[0] }}</p>
         </li>
         <li>
             <p class="digit">{{ hours | twoDigits }}</p>
-            <p class="text">{{ hours > 1 ? i18n.hour[1] : i18n.hour[0] }}</p>
+            <p class="text">{{ hours > 1 ? labels.hour[1] : labels.hour[0] }}</p>
         </li>
         <li>
             <p class="digit">{{ minutes | twoDigits }}</p>
-            <p class="text">{{ minutes > 1 ? i18n.minute[1] : i18n.minute[0] }}</p>
+            <p class="text">{{ minutes > 1 ? labels.minute[1] : labels.minute[0] }}</p>
         </li>
         <li>
             <p class="digit">{{ seconds | twoDigits }}</p>
-            <p class="text">{{ seconds > 1 ? i18n.second[1] : i18n.second[0] }}</p>
+            <p class="text">{{ seconds > 1 ? labels.second[1] : labels.second[0] }}</p>
         </li>
     </ul>
 </template>
@@ -42,7 +42,13 @@ export default {
         return {
             now: Math.trunc((new Date()).getTime() / 1000),
             date: null,
-            diff: 0
+            diff: 0,
+            labels: {
+                day: (this.$props.i18n && this.$props.i18n.day) || ['day', 'days'],
+                hour: (this.$props.i18n && this.$props.i18n.hour) || ['hour', 'hours'],
+                minute: (this.$props.i18n && this.$props.i18n.minute) || ['min', 'min'],
+                second: (this.$props.i18n && this.$props.i18n.second) || ['Sec', 'Sec']
+            }
         }
     },
     created() {
@@ -59,13 +65,6 @@ export default {
 
         if (!this.date) {
             throw new Error("Invalid props value, correct the 'deadline' or 'end'");
-        }
-
-        this.i18n = {
-            day: (this.i18n && this.i18n.day) || ['day', 'days'],
-            hour: (this.i18n && this.i18n.hour) || ['hour', 'hours'],
-            minute: (this.i18n && this.i18n.minute) || ['min', 'min'],
-            second: (this.i18n && this.i18n.second) || ['Sec', 'Sec']
         }
     },
     mounted() {
