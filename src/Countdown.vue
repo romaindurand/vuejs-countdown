@@ -2,19 +2,19 @@
     <ul class="vuejs-countdown">
         <li v-if="days > 0">
             <p class="digit">{{ days | twoDigits }}</p>
-            <p class="text">{{ days > 1 ? 'days' : 'day' }}</p>
+            <p class="text">{{ days > 1 ? i18n.day[1] : i18n.day[0] }}</p>
         </li>
         <li>
             <p class="digit">{{ hours | twoDigits }}</p>
-            <p class="text">{{ hours > 1 ? 'hours' : 'hour' }}</p>
+            <p class="text">{{ hours > 1 ? i18n.hour[1] : i18n.hour[0] }}</p>
         </li>
         <li>
             <p class="digit">{{ minutes | twoDigits }}</p>
-            <p class="text">min</p>
+            <p class="text">{{ minutes > 1 ? i18n.minute[1] : i18n.minute[0] }}</p>
         </li>
         <li>
             <p class="digit">{{ seconds | twoDigits }}</p>
-            <p class="text">Sec</p>
+            <p class="text">{{ seconds > 1 ? i18n.second[1] : i18n.second[0] }}</p>
         </li>
     </ul>
 </template>
@@ -33,6 +33,9 @@ export default {
         },
         stop: {
             type: Boolean
+        },
+        i18n: {
+            type: Object
         }
     },
     data() {
@@ -51,9 +54,21 @@ export default {
         this.date = Math.trunc(Date.parse(endTime.replace(/-/g, "/")) / 1000);
 
         if (!this.date) {
+            this.date = +new Date(endTime) / 1000
+        }
+
+        if (!this.date) {
             throw new Error("Invalid props value, correct the 'deadline' or 'end'");
         }
 
+        this.i18n = {
+            day: this.i18n && this.i18n.day || ['day', 'days'],
+            hour: this.i18n && this.i18n.hour || ['hour', 'hours'],
+            minute: this.i18n && this.i18n.minute || ['min', 'min'],
+            second: this.i18n && this.i18n.second || ['Sec', 'Sec']
+        }
+    },
+    mounted() {
         interval = setInterval(() => {
             this.now = Math.trunc((new Date()).getTime() / 1000);
         }, 1000);

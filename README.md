@@ -15,8 +15,10 @@ A simple countdown timer component for VueJS 2.
 <template>
   <div>
     <Countdown deadline="August 22, 2022"></Countdown>
-    or 
+    shorthand :
     <Countdown end="August 22, 2022"></Countdown>
+    using custom labels :
+    <Countdown end="August 22, 2022" :i18n="countdownLabels"></Countdown>
   </div>
 </template>
 ```
@@ -26,7 +28,16 @@ A simple countdown timer component for VueJS 2.
 import Countdown from 'vuejs-countdown'
 
 export default {
-  components: { Countdown }
+  components: { Countdown },
+  data() {
+    return {
+      countdownLabels: {
+        day: ['jour', 'jours'], // when overriding default labels, 
+        hour: ['heure', 'heures'] // you must specify both singular and plural form
+        // ommiting 'minute' and 'second' keys fallback to default (min/sec)
+      }
+    }
+  }
 }
 </script>
 ```
