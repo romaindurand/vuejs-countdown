@@ -17,8 +17,12 @@ A simple countdown timer component for VueJS 2.
     <Countdown deadline="August 22, 2022"></Countdown>
     shorthand :
     <Countdown end="August 22, 2022"></Countdown>
+    using JSON date format (ie: "2019-01-12T19:44:55.906Z")
+    <Countdown :end="new Date().toJSON()"/>
     using custom labels :
     <Countdown end="August 22, 2022" :i18n="countdownLabels"></Countdown>
+    finished callback
+    <Countdown end="August 22, 2022" @finished="onCountdownEnd"/>
   </div>
 </template>
 ```
@@ -36,6 +40,11 @@ export default {
         hour: ['heure', 'heures'] // you must specify both singular and plural form
         // ommiting 'minute' and 'second' keys fallback to default (min/sec)
       }
+    }
+  },
+  methods: {
+    onCountdownEnd() {
+      console.log('timer finished')
     }
   }
 }

@@ -62,10 +62,10 @@ export default {
         }
 
         this.i18n = {
-            day: this.i18n && this.i18n.day || ['day', 'days'],
-            hour: this.i18n && this.i18n.hour || ['hour', 'hours'],
-            minute: this.i18n && this.i18n.minute || ['min', 'min'],
-            second: this.i18n && this.i18n.second || ['Sec', 'Sec']
+            day: (this.i18n && this.i18n.day) || ['day', 'days'],
+            hour: (this.i18n && this.i18n.hour) || ['hour', 'hours'],
+            minute: (this.i18n && this.i18n.minute) || ['min', 'min'],
+            second: (this.i18n && this.i18n.second) || ['Sec', 'Sec']
         }
     },
     mounted() {
@@ -94,6 +94,7 @@ export default {
         now(value) {
             this.diff = this.date - this.now;
             if(this.diff <= 0 || this.stop){
+                if (this.diff <= 0) this.$emit('finished');
                 this.diff = 0;
                 // Remove interval
                 clearInterval(interval);
