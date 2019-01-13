@@ -20,7 +20,6 @@
 </template>
 
 <script>
-let interval = null;
 
 export default {
     name: 'vuejsCountDown',
@@ -43,6 +42,7 @@ export default {
             now: Math.trunc((new Date()).getTime() / 1000),
             date: null,
             diff: 0,
+            interval: null,
             labels: {
                 day: (this.$props.i18n && this.$props.i18n.day) || ['day', 'days'],
                 hour: (this.$props.i18n && this.$props.i18n.hour) || ['hour', 'hours'],
@@ -68,7 +68,7 @@ export default {
         }
     },
     mounted() {
-        interval = setInterval(() => {
+        this.interval = setInterval(() => {
             this.now = Math.trunc((new Date()).getTime() / 1000);
         }, 1000);
     },
@@ -96,7 +96,7 @@ export default {
                 if (this.diff <= 0) this.$emit('finished');
                 this.diff = 0;
                 // Remove interval
-                clearInterval(interval);
+                clearInterval(this.interval);
             }
         }
     },
@@ -109,7 +109,7 @@ export default {
         }
     },
     destroyed() {
-        clearInterval(interval);
+        clearInterval(this.interval);
     }
 }
 </script>
